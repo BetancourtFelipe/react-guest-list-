@@ -16,6 +16,7 @@ const eventAppStyle = css`
   justify-content: space-evenly;
   background-color: #4056a1;
   flex-wrap: wrap;
+  border: 5px solid black;
 `;
 
 const newGuestStyle = css`
@@ -36,6 +37,11 @@ const buttonStyle = css`
   background-color: white;
   border: 2px solid black;
 `;
+
+const headSectionGuestlist = css`
+  background-color: white;
+`;
+
 const guestListStyle = css`
   background-color: lightgrey;
   width: 550px;
@@ -43,13 +49,17 @@ const guestListStyle = css`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-evenly;
   box-shadow: 2px 2px 2px 4px #000000;
-  align-items: flex-end;
+  align-items: center;
   margin: 10px;
+  width: 90%;
+  height: 50%;
 `;
 
-const headSectionGuestlist = css`
-  background-color: #c5cbe3;
+const guestListItemStyle = css`
+  justify-content: center;
+  align-items: flex-start;
 `;
 
 // function hallo() {}
@@ -151,24 +161,23 @@ export default function App() {
         </div>
         <div css={guestListStyle}>
           <section css={headSectionGuestlist}>Guest List</section>
-          <div>
+          <div css={guestListItemStyle}>
             {guests.map((guest) => {
               return (
                 <div key={guest.id}>
                   <h3>
                     {guest.firstName} {guest.lastName}
                   </h3>
-                  {isChecked || 'not'} Attending
                   <input
-                    id="guestCheckBox"
+                    className="myInput"
                     aria-label="attending"
                     checked={guest.attending}
                     type="checkbox"
-                    onChange={(event) =>
-                      // setAttending(event.currentTarget.checked)
-                      updateGuest(event.currentTarget.checked, guest.id)
-                    }
+                    onChange={(
+                      event, // setAttending(event.currentTarget.checked)
+                    ) => updateGuest(event.currentTarget.checked, guest.id)}
                   />
+                  is {isChecked ? '' : 'not'} attending!
                   <button
                     aria-label="Remove"
                     onClick={() => {
