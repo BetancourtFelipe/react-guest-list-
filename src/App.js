@@ -4,27 +4,53 @@ import { useEffect, useState } from 'react';
 
 /** @jsxImportSource @emotion/react */
 
+const headSectionStyle = css`
+  background-color: #f13c20;
+  box-shadow: 2px 2px 2px 2px #000000;
+  margin: 20px;
+`;
+
+const eventAppStyle = css`
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: #4056a1;
+  flex-wrap: wrap;
+`;
+
 const newGuestStyle = css`
-  background-color: lightblue;
-  width: 550px;
-  height: 200px;
+  background-color: #c5cbe3;
+  width: 600px;
+  height: 150px;
+  box-shadow: 2px 2px 2px 4px #000000;
+  margin: 10px;
+`;
+const guestFormStyle = css`
+  display: grid;
 `;
 
 const buttonStyle = css`
-  margin: 20px;
-  padding: 20px;
-  font-size: 16px;
+  margin: 15px;
+  padding: 15px;
+  font-size: 12px;
   background-color: white;
   border: 2px solid black;
 `;
-// const guestListStyle = css`
-//   background-color: lightgrey;
-//   width: 550px;
-//   height: 600px;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: flex-start;
-// `;
+const guestListStyle = css`
+  background-color: lightgrey;
+  width: 550px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 2px 2px 2px 4px #000000;
+  align-items: flex-end;
+  margin: 10px;
+`;
+
+const headSectionGuestlist = css`
+  background-color: #c5cbe3;
+`;
 
 // function hallo() {}
 // const hallo = () => {}
@@ -36,6 +62,7 @@ export default function App() {
   const [guests, setGuests] = useState([]);
   const [refetch, setRefetch] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
 
   const baseUrl = 'http://localhost:4000';
 
@@ -90,69 +117,74 @@ export default function App() {
   }, [refetch]);
 
   if (isLoading) {
-    return <h1>LOADING</h1>;
+    return <h1>LOADING.....</h1>;
   }
 
   return (
     <div data-test-id="guest">
-      <div css={newGuestStyle}>
-        <h2>New Guest</h2>
+      <section css={headSectionStyle}>EVENT GUEST LIST </section>
+      <div css={eventAppStyle}>
+        <div css={newGuestStyle}>
+          <h2>New Guest</h2>
 
-        <div>
-          <form onSubmit={(event) => onSubmit(event)}>
-            <label>
-              First Name:
-              <input
-                value={firstName}
-                placeholder="First Name"
-                onChange={(event) => setFirstName(event.currentTarget.value)}
-              />
-            </label>
-            <label>
-              Last Name:
-              <input
-                value={lastName}
-                placeholder="Last Name"
-                onChange={(event) => setLastName(event.currentTarget.value)}
-              />
-            </label>
-            <button css={buttonStyle}>Add Guest</button>
-          </form>
-          <button css={buttonStyle}>Delete All</button>
-        </div>
-        <div>
-          {guests.map((guest) => {
-            return (
-              <div key={guest.id}>
-                <h3>
-                  {guest.firstName} {guest.lastName}
-                </h3>
+          <div css={guestFormStyle}>
+            <form onSubmit={(event) => onSubmit(event)}>
+              <label>
+                First Name:
                 <input
-                  id="guestCheckBox"
-                  aria-label="attending"
-                  checked={guest.attending}
-                  type="checkbox"
-                  onChange={(event) =>
-                    // setAttending(event.currentTarget.checked)
-                    updateGuest(event.currentTarget.checked, guest.id)
-                  }
+                  value={firstName}
+                  placeholder="First Name"
+                  onChange={(event) => setFirstName(event.currentTarget.value)}
                 />
-
-                <button
-                  aria-label="Remove"
-                  onClick={() => {
-                    setGuests(
-                      guests.filter((g) => g.firstName !== guest.firstName),
-                    );
-                    setIsLoading(true);
-                    setRefetch(!refetch);
-                  }}
-                >
-                  Remove
-                </button>
-              </div>
-            );
-          })}
+              </label>
+              <label>
+                Last Name:
+                <input
+                  value={lastName}
+                  placeholder="Last Name"
+                  onChange={(event) => setLastName(event.currentTarget.value)}
+                />
+              </label>
+              <button css={buttonStyle}>Add Guest</button>
+            </form>
+          </div>
+        </div>
+        <div css={guestListStyle}>
+          <section css={headSectionGuestlist}>Guest List</section>
+          <div>
+            {guests.map((guest) => {
+              return (
+                <div key={guest.id}>
+                  <h3>
+                    {guest.firstName} {guest.lastName}
+                  </h3>
+                  {isChecked || 'not'} Attending
+                  <input
+                    id="guestCheckBox"
+                    aria-label="attending"
+                    checked={guest.attending}
+                    type="checkbox"
+                    onChange={(event) =>
+                      // setAttending(event.currentTarget.checked)
+                      updateGuest(event.currentTarget.checked, guest.id)
+                    }
+                  />
+                  <button
+                    aria-label="Remove"
+                    onClick={() => {
+                      setGuests(
+                        guests.filter((g) => g.firstName !== guest.firstName),
+                      );
+                      setIsLoading(true);
+                      setRefetch(!refetch);
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
