@@ -8,13 +8,15 @@ const headSectionStyle = css`
   background-color: #f13c20;
   box-shadow: 2px 2px 2px 2px #000000;
   margin: 20px;
+  color: white;
+  font-weight: bold;
 `;
 
 const eventAppStyle = css`
   display: inline-flex;
   flex-direction: row;
   justify-content: space-evenly;
-  background-color: #4056a1;
+  background-color: #c5cbe3;
   flex-wrap: wrap;
   border: 5px solid black;
 `;
@@ -24,7 +26,8 @@ const newGuestStyle = css`
   width: 600px;
   height: 150px;
   box-shadow: 2px 2px 2px 4px #000000;
-  margin: 10px;
+  margin: 5px;
+  font-weight: bold;
 `;
 const guestFormStyle = css`
   display: grid;
@@ -39,7 +42,12 @@ const buttonStyle = css`
 `;
 
 const headSectionGuestlist = css`
-  background-color: white;
+  background-color: #c5cbe3;
+  margin: 10px;
+  padding: 5px 100px;
+  border: 1px solid black;
+  text-decoration: underline;
+  font-weight: bold;
 `;
 
 const guestListStyle = css`
@@ -48,7 +56,7 @@ const guestListStyle = css`
   height: 600px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+
   justify-content: space-evenly;
   box-shadow: 2px 2px 2px 4px #000000;
   align-items: center;
@@ -58,7 +66,7 @@ const guestListStyle = css`
 `;
 
 const guestListItemStyle = css`
-  justify-content: center;
+  justify-content: flex;
   align-items: flex-start;
 `;
 
@@ -161,7 +169,7 @@ export default function App() {
         </div>
         <div css={guestListStyle}>
           <section css={headSectionGuestlist}>Guest List</section>
-          <div css={guestListItemStyle}>
+          <div>
             {guests.map((guest) => {
               return (
                 <div key={guest.id}>
@@ -169,13 +177,12 @@ export default function App() {
                     {guest.firstName} {guest.lastName}
                   </h3>
                   <input
-                    className="myInput"
                     aria-label="attending"
                     checked={guest.attending}
                     type="checkbox"
-                    onChange={(
-                      event, // setAttending(event.currentTarget.checked)
-                    ) => updateGuest(event.currentTarget.checked, guest.id)}
+                    onChange={(event) =>
+                      updateGuest(event.currentTarget.checked, guest.id)
+                    }
                   />
                   is {isChecked ? '' : 'not'} attending!
                   <button
