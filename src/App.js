@@ -26,19 +26,27 @@ const newGuestStyle = css`
   width: 600px;
   height: 150px;
   box-shadow: 2px 2px 2px 4px #000000;
-  margin: 5px;
+  margin: 10px;
   font-weight: bold;
 `;
 const guestFormStyle = css`
   display: grid;
 `;
 
-const buttonStyle = css`
+const addButtonStyle = css`
   margin: 15px;
   padding: 15px;
   font-size: 12px;
   background-color: white;
   border: 2px solid black;
+`;
+
+const removeButtonStyle = css`
+  margin: 10px;
+  padding: 15px;
+  font-size: 10px;
+  background-color: white;
+  border: 1px solid black;
 `;
 
 const headSectionGuestList = css`
@@ -52,22 +60,22 @@ const headSectionGuestList = css`
 
 const guestListStyle = css`
   background-color: lightgrey;
-  width: 550px;
-  height: 600px;
-  display: flex;
+  width: 800px;
+  height: 800px;
+  display: flex-start;
   flex-direction: column;
 
   justify-content: space-evenly;
   box-shadow: 2px 2px 2px 4px #000000;
   align-items: center;
   margin: 10px;
-  width: 90%;
-  height: 50%;
 `;
 
 const guestListItemStyle = css`
-  justify-content: flex;
-  align-items: flex-start;
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid black;
+  margin: 10px;
 `;
 
 // function hallo() {}
@@ -93,7 +101,7 @@ export default function App() {
       body: JSON.stringify({ firstName: firstName, lastName: lastName }),
     });
 
-    const createdGuest = await response.json();
+    // const createdGuest = await response.json();
   }
 
   async function updateGuest(attend, id) {
@@ -148,8 +156,8 @@ export default function App() {
 
   return (
     <div data-test-id="guest">
+      <section css={headSectionStyle}>EVENT GUEST LIST </section>
       <div css={eventAppStyle}>
-        <section css={headSectionStyle}>EVENT GUEST LIST </section>
         <div css={newGuestStyle}>
           <h2>New Guest</h2>
 
@@ -171,16 +179,17 @@ export default function App() {
                   onChange={(event) => setLastName(event.currentTarget.value)}
                 />
               </label>
-              <button css={buttonStyle}>Add Guest</button>
+              <button css={addButtonStyle}>Add Guest</button>
             </form>
           </div>
         </div>
+
         <div css={guestListStyle}>
           <section css={headSectionGuestList}>Guest List</section>
           <div>
             {guests.map((guest) => {
               return (
-                <div key={guest.id}>
+                <div key={guest.id} css={guestListItemStyle}>
                   <h3>
                     {guest.firstName} {guest.lastName}
                   </h3>
@@ -194,6 +203,7 @@ export default function App() {
                   />
                   is {!guest.attending ? 'not' : ' '} attending!
                   <button
+                    css={removeButtonStyle}
                     aria-label="Remove"
                     onClick={() => {
                       removeGuest(guest.id);
