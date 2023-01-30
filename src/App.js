@@ -15,7 +15,7 @@ const headSectionStyle = css`
 const eventAppStyle = css`
   display: inline-flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   background-color: #c5cbe3;
   flex-wrap: wrap;
   border: 5px solid black;
@@ -41,7 +41,7 @@ const buttonStyle = css`
   border: 2px solid black;
 `;
 
-const headSectionGuestlist = css`
+const headSectionGuestList = css`
   background-color: #c5cbe3;
   margin: 10px;
   padding: 5px 100px;
@@ -110,6 +110,14 @@ export default function App() {
     setRefetch(!refetch);
   }
 
+  async function removeGuest(id) {
+    const response = await fetch(`${baseUrl}/guests/${id}`, {
+      method: 'DELETE',
+    });
+    const deletedGuest = await response.json();
+    setRefetch(!refetch);
+  }
+
   async function onSubmit(event) {
     event.preventDefault();
 
@@ -140,8 +148,8 @@ export default function App() {
 
   return (
     <div data-test-id="guest">
-      <section css={headSectionStyle}>EVENT GUEST LIST </section>
       <div css={eventAppStyle}>
+        <section css={headSectionStyle}>EVENT GUEST LIST </section>
         <div css={newGuestStyle}>
           <h2>New Guest</h2>
 
@@ -168,7 +176,7 @@ export default function App() {
           </div>
         </div>
         <div css={guestListStyle}>
-          <section css={headSectionGuestlist}>Guest List</section>
+          <section css={headSectionGuestList}>Guest List</section>
           <div>
             {guests.map((guest) => {
               return (
@@ -184,15 +192,11 @@ export default function App() {
                       updateGuest(event.currentTarget.checked, guest.id)
                     }
                   />
-                  is {isChecked ? '' : 'not'} attending!
+                  is {!guest.attending ? 'not' : ' '} attending!
                   <button
                     aria-label="Remove"
                     onClick={() => {
-                      setGuests(
-                        guests.filter((g) => g.firstName !== guest.firstName),
-                      );
-                      setIsLoading(true);
-                      setRefetch(!refetch);
+                      removeGuest(guest.id);
                     }}
                   >
                     Remove
