@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 const headSectionStyle = css`
   background-color: #f13c20;
-  box-shadow: 2px 2px 2px 2px #000000;
+  box-shadow: 2px 2px 2px 4px #000000;
   margin: 20px;
   color: white;
   font-weight: bold;
@@ -88,7 +88,7 @@ export default function App() {
   const [guests, setGuests] = useState([]);
   const [refetch, setRefetch] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
   const baseUrl = 'http://localhost:4000';
 
@@ -113,8 +113,8 @@ export default function App() {
       body: JSON.stringify({ attending: attend }),
     });
 
-    const updatedGuest = await response.json();
-    console.log(updateGuest);
+    // const updatedGuest = await response.json();
+    // console.log(updateGuest);
     setRefetch(!refetch);
   }
 
@@ -122,7 +122,7 @@ export default function App() {
     const response = await fetch(`${baseUrl}/guests/${id}`, {
       method: 'DELETE',
     });
-    const deletedGuest = await response.json();
+    // const deletedGuest = await response.json();
     setRefetch(!refetch);
   }
 
