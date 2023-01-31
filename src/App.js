@@ -1,3 +1,4 @@
+import './reportWebVitals';
 import './App.css';
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
@@ -78,9 +79,6 @@ const guestListItemStyle = css`
   margin: 10px;
 `;
 
-// function hallo() {}
-// const hallo = () => {}
-
 export default function App() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -101,7 +99,8 @@ export default function App() {
       body: JSON.stringify({ firstName: firstName, lastName: lastName }),
     });
 
-    // const createdGuest = await response.json();
+    await response.json();
+    setRefetch(refetch);
   }
 
   async function updateGuest(attend, id) {
@@ -113,8 +112,8 @@ export default function App() {
       body: JSON.stringify({ attending: attend }),
     });
 
-    // const updatedGuest = await response.json();
-    // console.log(updateGuest);
+    const updatedGuest = await response.json();
+    console.log(updatedGuest);
     setRefetch(!refetch);
   }
 
@@ -122,7 +121,7 @@ export default function App() {
     const response = await fetch(`${baseUrl}/guests/${id}`, {
       method: 'DELETE',
     });
-    // const deletedGuest = await response.json();
+    await response.json();
     setRefetch(!refetch);
   }
 
@@ -134,6 +133,7 @@ export default function App() {
     setGuests(newState);
     setFirstName('');
     setLastName('');
+    setAttending();
   }
 
   useEffect(() => {
