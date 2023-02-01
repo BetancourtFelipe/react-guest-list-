@@ -86,7 +86,6 @@ export default function App() {
   const [guests, setGuests] = useState([]);
   const [refetch, setRefetch] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  // const [isChecked, setIsChecked] = useState(false);
 
   const baseUrl = 'http://localhost:4000';
 
@@ -206,7 +205,9 @@ export default function App() {
                     css={removeButtonStyle}
                     aria-label="Remove"
                     onClick={() => {
-                      removeGuest(guest.id);
+                      removeGuest(guest.id).catch((error) =>
+                        console.log(error),
+                      );
                     }}
                   >
                     Remove
